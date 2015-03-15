@@ -15,8 +15,20 @@ echo UtilidadesDeFechas::ConvertirFechaDDMMYYYYAMysql('01/01/2015','/');    //mu
 Instalación:
 
 
-Añadir a composer.json:
+1) Añadir a composer.json:
 
 "require-dev": {
     "molona/molodate": "dev-master"
 },
+
+
+2) composer update
+
+
+3) Agregar en el fichero/clase en el que se vaya a utilizar y llamar a alguna de sus fuciones.
+
+use Molodate\UtilidadesDeFechas;
+..
+..
+..
+UtilidadesDeFechas::ConvertirFechaDDMMYYYYAMysql('01/01/2015','/');
