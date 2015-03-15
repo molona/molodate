@@ -10,26 +10,40 @@ namespace Molodate;
 class UtilidadesDeFechas
 {
 
+
+    private static function obtenerSeparadorExpresion ($separador){
+        
+        $separadorExpresion = $separador;
+
+        if ($separadorExpresion == '/'){
+            $separadorExpresion ='\/';
+        }
+
+        return $separadorExpresion;
+    }
+
     /**
      * @param type $fecha
      * @return string
      */
-    public static function ConvertirFechaMysqlAHumano($fecha)
+    public static function ConvertirFechaMysqlADDMMYYYY($fecha,$separadorRetorno = '-')
     {
         if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fecha)) {
             $fecha = explode('-', $fecha);
-            return $fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+            return $fecha[2].$separadorRetorno.$fecha[1].$separadorRetorno.$fecha[0];
         }
 
         return '';
     }
 
 
-    public static function ConvertirFechaHumanoAMysql($fecha)
+    public static function ConvertirFechaDDMMYYYYAMysql($fecha,$separador = '-')
     {
+        
+        $separadorExpresion = self::obtenerSeparadorExpresion($separador);
 
-        if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}$/", $fecha)) {
-            $fecha = explode('-', $fecha);
+        if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1])".$separadorExpresion."(0[1-9]|1[0-2])".$separadorExpresion."[0-9]{4}$/", $fecha)) {
+            $fecha = explode($separador, $fecha);
             return $fecha[2].'-'.$fecha[1].'-'.$fecha[0];
         }
 
@@ -51,14 +65,16 @@ class UtilidadesDeFechas
     }
 
 
-    public static function comprobarSiFechaEsHumano($fecha)
+    public static function comprobarSiFechaEsDDMMYYYY($fecha,$separador = '-')
     {
 
         if (empty(trim($fecha))) {
             return false;
         }
 
-        if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}$/", $fecha)) {
+        $separadorExpresion = self::obtenerSeparadorExpresion($separador);
+
+        if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1])".$separadorExpresion."(0[1-9]|1[0-2])".$separadorExpresion."[0-9]{4}$/", $fecha)) {
             return true;
         }
 
@@ -66,11 +82,11 @@ class UtilidadesDeFechas
     }
 
 
-    public static function obtenerAnioDeFecha ($fecha){
-        
-        $anio = explode ('-',$fecha);
-        
-        if (self::comprobarSiFechaEsHumano($fecha)){
+    public static function obtenerAnioDeFecha ($fecha, $separador = '-'){
+
+        $anio = explode ($separador,$fecha);
+
+        if (self::comprobarSiFechaEsDDMMYYYY($fecha,$separador)){    
             return $anio[2];
         }
         else{
@@ -84,12 +100,13 @@ class UtilidadesDeFechas
         $mes = explode ('-',$fecha);
         return $mes[1];
     }
+    
 
-    public static function obtenerDiaDeFecha ($fecha){
+    public static function obtenerDiaDeFecha ($fecha, $separador = '-'){
 
-        $dia = explode ('-',$fecha);
+        $dia = explode ($separador,$fecha);
 
-        if (self::comprobarSiFechaEsHumano($fecha)){
+        if (self::comprobarSiFechaEsDDMMYYYY($fecha,$separador)){
             return $dia[0];
         }
         else{
