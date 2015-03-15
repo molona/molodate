@@ -1,0 +1,12 @@
+{
+    "name": "molona/molodate",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/molona/molodate"
+        }
+    ],
+    "require": {
+        "molona/molodate": "dev-master"
+    }
+}
