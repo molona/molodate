@@ -53,7 +53,9 @@ class UtilidadesDeFechas
 
     public static function comprobarSiFechaEsMysql($fecha)
     {
-        if (empty(trim($fecha))) {
+
+        $fecha = trim($fecha);
+        if (empty($fecha)) {
             return false;
         }
 
@@ -68,7 +70,8 @@ class UtilidadesDeFechas
     public static function comprobarSiFechaEsDDMMYYYY($fecha,$separador = '-')
     {
 
-        if (empty(trim($fecha))) {
+        $fecha = trim($fecha);
+        if (empty($fecha)) {
             return false;
         }
 
